@@ -1,25 +1,28 @@
 <script lang="ts">
-import Temporizador from './Temporizador.vue';
-
-
-
 export default {
-  
-    name: 'FormularioInput',
-    data (){
+    name: 'FormularioInput', 
+    data(){
         return {
-            descricao: ''
+            tempoEmSegundos: 0,
+            cronometro: 0 
         }
     },
-    components: { Temporizador},
+    computed: {
+        tempoDecorrido(): string{
+            return new Date(this.tempoEmSegundos * 1000).toISOString().substr(11,8)
+        }
+    },
     methods: {
-        finalizarTarefa(tempoDecorrido : number) : void{
-            this.$emit('aoSalvarTarefa', {duracaoEmSegundos: tempoDecorrido, descricao: this.descricao} )
-            this.descricao = ''
+        iniciar(){
+            this.cronometro = setInterval(()=>{
+                this.tempoEmSegundos++
+            }, 1000)
+        },
+        finalizar(){
+            clearInterval(this.cronometro)
         }
-    },
-    emits: ['aoSalvarTarefa']
     }
+}
 </script>
 
 <template>
@@ -28,11 +31,33 @@ export default {
         <div class="columns">
 
             <div class="column is-8" role="form" aria-label="Formulario para criacao de uma tarefa">
-                <input type="text" class="input" placeholder="Qual tarefa você deseja iniciar?" v-model="descricao">
+                <input type="text" class="input" placeholder="Qual tarefa você deseja iniciar?">
             </div>
 
-            <Temporizador @aoTemporizadorFinalizado="finalizarTarefa"/>
-            
+            <div class="column is-flex is-align-items-center is-justify-content-space-between">
+
+                <section>
+                    <strong>{{ tempoDecorrido }}</strong>
+                </section>
+
+                <button class="button" @click="iniciar">
+                    <span class="icon">
+                        <i class="fas fa-play"></i>
+                    </span>
+                    <span>Play</span>
+
+                </button>
+
+                <button class="button" @click="finalizar">
+                    <span class="icon">
+                        <i class="fas fa-stop"></i>
+                    </span>
+                    <span>Stop</span>
+
+                </button>
+
+            </div>
+
         </div>
 
     </div>
