@@ -14,11 +14,11 @@ export default {
     components: { Temporizador},
     methods: {
         finalizarTarefa(tempoDecorrido : number) : void{
-            console.log('O tempo decorrido é:', tempoDecorrido)
-            console.log('A descricao da tarefa é:', this.descricao)
+            this.$emit('aoSalvarTarefa', {duracaoEmSegundos: tempoDecorrido, descricao: this.descricao} )
             this.descricao = ''
         }
-    }
+    },
+    emits: ['aoSalvarTarefa']
     }
 </script>
 
@@ -32,7 +32,7 @@ export default {
             </div>
 
             <Temporizador @aoTemporizadorFinalizado="finalizarTarefa"/>
-
+            
         </div>
 
     </div>
