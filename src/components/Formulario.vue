@@ -1,64 +1,48 @@
 <script lang="ts">
-export default {
-    name: 'FormularioInput', 
-    data(){
+import { defineComponent } from 'vue';
+import Temporizador from './Temporizador.vue';
+
+
+
+export default defineComponent({
+  
+    name: 'FormularioInput',
+    data (){
         return {
-            tempoEmSegundos: 0,
-            cronometro: 0 
+            descricao: ''
         }
     },
-    computed: {
-        tempoDecorrido(): string{
-            return new Date(this.tempoEmSegundos * 1000).toISOString().substr(11,8)
-        }
-    },
+    components: { Temporizador},
     methods: {
-        iniciar(){
-            this.cronometro = setInterval(()=>{
-                this.tempoEmSegundos++
-            }, 1000)
-        },
-        finalizar(){
-            clearInterval(this.cronometro)
+        finalizarTarefa(tempoDecorrido : number) : void{
+            this.$emit('aoSalvarTarefa', {duracaoEmSegundos: tempoDecorrido, descricao: this.descricao} )
+            this.descricao = ''
         }
-    }
-}
+    },
+    emits: ['aoSalvarTarefa']
+    })
 </script>
 
 <template>
-    <div class="box">
+    <div class="box formulario">
 
         <div class="columns">
 
             <div class="column is-8" role="form" aria-label="Formulario para criacao de uma tarefa">
-                <input type="text" class="input" placeholder="Qual tarefa você deseja iniciar?">
+                <input type="text" class="input " placeholder="Qual tarefa você deseja iniciar?" v-model="descricao">
             </div>
 
-            <div class="column is-flex is-align-items-center is-justify-content-space-between">
-
-                <section>
-                    <strong>{{ tempoDecorrido }}</strong>
-                </section>
-
-                <button class="button" @click="iniciar">
-                    <span class="icon">
-                        <i class="fas fa-play"></i>
-                    </span>
-                    <span>Play</span>
-
-                </button>
-
-                <button class="button" @click="finalizar">
-                    <span class="icon">
-                        <i class="fas fa-stop"></i>
-                    </span>
-                    <span>Stop</span>
-
-                </button>
-
-            </div>
-
+            <Temporizador @aoTemporizadorFinalizado="finalizarTarefa"/>
+            
         </div>
 
     </div>
 </template>
+
+<style>
+.formulario{
+    color: var(--texto-primario);
+    background-color: var(--bg-primario) ;
+    
+}
+</style>

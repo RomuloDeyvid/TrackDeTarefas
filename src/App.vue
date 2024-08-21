@@ -2,24 +2,53 @@
 import { defineComponent } from 'vue';
 import BarraLateral from './components/BarraLateral.vue';
 import Formulario from './components/Formulario.vue';
+import Tarefa from './components/Tarefa.vue';
+import ITarefa from './components/interfaces/ITarefa';
+import Box from './components/Box.vue';
 
 
 export default defineComponent({
   name: 'App',
-  components: { BarraLateral, Formulario }
+  data() {
+    return {
+      tarefas: [] as ITarefa[],
+      modoEscuroAtivo: false
+    }
+  },
+  computed: {
+    listaEstaVazia(): boolean {
+      return this.tarefas.length === 0
+    }
+  },
+  components: { BarraLateral, Formulario, Tarefa, Box },
+  methods: {
+    salvarTarefa(tarefa: ITarefa) {
+      this.tarefas.push(tarefa)
+    },
+    trocarOTema(modoEscuroAtivo : boolean){
+      this.modoEscuroAtivo = modoEscuroAtivo
+    }
+  }
 
 });
 </script>
 
 <template>
 
-  <main class="columns is-gapless is-multiline">
+  <main class="columns is-gapless is-multiline" :class="{'modo-escuro': modoEscuroAtivo }">
     <div class="column is-one-quarter">
-      <BarraLateral />
+      <BarraLateral @aoTemaAlterado="trocarOTema"/>
     </div>
 
-    <div class="column is-three-quarter">
-      <Formulario />
+    <div class="column is-three-quarter conteudo">
+      <Formulario @aoSalvarTarefa="salvarTarefa" />
+      <div class="lista">
+        <Tarefa v-for="(tarefa, index) in tarefas" :key="index" :tarefa="tarefa" />
+        <Box v-if="listaEstaVazia">
+          Você não tem tarefas realizadas!
+        </Box>
+      </div>
+
     </div>
 
   </main>
@@ -27,17 +56,18 @@ export default defineComponent({
 </template>
 
 <style>
-header {
-  padding: 1rem;
-  background: #0d3b66;
-  width: 100%;
-  height: 100vh;
+.lista {
+  padding: 1.25rem;
 }
-
-@media only screen and (max-width: 768px) {
-  header {
-    padding: 2.5rem;
-    height: auto;
-  }
+main {
+  --bg-primario: #fff;
+  --texto-primario: #000;
+}
+main.modo-escuro{
+  --bg-primario: #2b2d42;
+  --texto-primario: grey;
+}
+.conteudo{
+  background-color: var(--bg-primario);
 }
 </style>
