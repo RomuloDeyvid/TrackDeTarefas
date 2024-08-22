@@ -19,9 +19,9 @@ export default defineComponent({
   computed: {
     textoDoBotao() {
       if (this.modoEscuroAtivo) {
-        return 'Desativar modo escuro'
+        return 'Desativar modo escuro!'
       }else {
-        return 'Ativar modo escuro'
+        return 'Ativar modo escuro!'
       }
     }
   }
