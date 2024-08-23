@@ -6,7 +6,8 @@ export default defineComponent({
   name: 'BarraLateral',
   data() {
     return {
-      modoEscuroAtivo: false
+      modoEscuroAtivo: false, 
+      logoBranca: '../assets/logo-branca.jpg'
     }
   },
   emits: ['aoTemaAlterado'],
@@ -33,9 +34,28 @@ export default defineComponent({
 
   <header>
     <h1>
-      <img src="../assets/logo.png" alt="">
+      <img src="../assets/logo-preta.jpg" alt="">
     </h1>
-    <button class="button is-white" @click="alterarOTema">{{ textoDoBotao}}</button>
+    <br>
+    <div class="has-text-centered">
+    <button class="button is-white" @click="alterarOTema">{{ textoDoBotao }}</button>
+    </div>
+    <nav class="mt-5 ">
+      <ul>
+        <li>
+          <router-link to="/" class="link">
+            <i class="fas fa-tasks"></i>
+            Tarefas
+          </router-link>
+        </li>
+        <li>
+          <router-link to="/projetos" class="link">
+            <i class="fas fa-project-diagram"></i>
+            Projetos
+          </router-link>
+        </li>
+      </ul>
+    </nav>
   </header>
 
 </template>
@@ -43,7 +63,7 @@ export default defineComponent({
 <style scoped>
 header {
   padding: 1rem;
-  background: #0d3b66;
+  background: #12252B;
   width: 100%;
   height: 100vh;
   text-align: center;
@@ -54,5 +74,17 @@ header {
     padding: 2.5rem;
     height: auto;
   }
+}
+.panel li {
+  margin: 8px 0;
+}
+.link{
+  color: #fff;
+}
+.link:hover{
+  color: #FAF0CA;
+}
+.link.router-link-active{
+  color: #F8C420;
 }
 </style>

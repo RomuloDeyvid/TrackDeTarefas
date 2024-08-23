@@ -26,7 +26,7 @@ export default {
 
 <style scoped>
 .box {
-    color: black;
-    background: teal;
+    color: #fff;
+    background: #12252B;
 }
 </style>

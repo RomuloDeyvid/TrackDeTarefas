@@ -29,7 +29,7 @@ export default defineComponent({
         <div class="columns">
 
             <div class="column is-8" role="form" aria-label="Formulario para criacao de uma tarefa">
-                <input type="text" class="input " placeholder="Qual tarefa você deseja iniciar?" v-model="descricao">
+                <input type="text" class="input input-tarefa " placeholder="Qual tarefa você deseja iniciar?" v-model="descricao">
             </div>
 
             <Temporizador @aoTemporizadorFinalizado="finalizarTarefa"/>
@@ -44,5 +44,12 @@ export default defineComponent({
     color: var(--texto-primario);
     background-color: var(--bg-primario) ;
     
+}
+.input-tarefa{
+    background: #fff;
+    color: #000;
+}
+.input-tarefa::placeholder{
+    color: black;
 }
 </style>
