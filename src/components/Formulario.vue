@@ -23,7 +23,10 @@ export default defineComponent({
     components: { Temporizador},
     methods: {
         finalizarTarefa(tempoDecorrido : number) : void{
-            this.$emit('aoSalvarTarefa', {duracaoEmSegundos: tempoDecorrido, descricao: this.descricao, projeto: this.projetos.find( proj => proj.id == this.idProjeto) })
+            this.$emit('aoSalvarTarefa', {
+                duracaoEmSegundos: tempoDecorrido, 
+                descricao: this.descricao, 
+                projeto: this.projetos.find( proj => proj.id == this.idProjeto) })
             this.descricao = ''
         }
     },
