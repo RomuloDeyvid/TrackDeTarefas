@@ -1,6 +1,24 @@
+<template>
+
+  <main class="columns is-gapless is-multiline" :class="{'modo-escuro': modoEscuroAtivo }">
+    <div class="column is-one-quarter">
+      <BarraLateral @aoTemaAlterado="trocarOTema"/>
+    </div>
+
+    <div class="box column is-three-quarter conteudo">
+      <Notificacoes />
+      <router-view/>
+
+    </div>
+
+  </main>
+
+</template>
+
 <script lang="ts">
 import { defineComponent } from 'vue';
 import BarraLateral from './components/BarraLateral.vue';
+import Notificacoes from './components/Notificacoes.vue';
 
 
 
@@ -11,7 +29,7 @@ export default defineComponent({
       modoEscuroAtivo: false
     }
   },
-  components: { BarraLateral },
+  components: { BarraLateral, Notificacoes },
   methods: {
     trocarOTema(modoEscuroAtivo : boolean){
       this.modoEscuroAtivo = modoEscuroAtivo
@@ -20,22 +38,6 @@ export default defineComponent({
 
 });
 </script>
-
-<template>
-
-  <main class="columns is-gapless is-multiline" :class="{'modo-escuro': modoEscuroAtivo }">
-    <div class="column is-one-quarter">
-      <BarraLateral @aoTemaAlterado="trocarOTema"/>
-    </div>
-
-    <div class="box column is-three-quarter conteudo">
-      <router-view/>
-
-    </div>
-
-  </main>
-
-</template>
 
 <style>
 .lista {
