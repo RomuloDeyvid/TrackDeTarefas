@@ -1,7 +1,7 @@
 <template>
 
-    <section class="projetos">
-        <h1 class="title">Projetos:</h1>
+    <section>
+        
         <form @submit.prevent="salvar">
             <div class="field">
                 <label for="nomeDoProjeto" class="label title">Nome do Projeto</label>
@@ -62,9 +62,7 @@ export default defineComponent({
 .title{
     color: var(--cor-primaria);
 }
-.projetos {
-    padding: 2rem;
-}
+
 .input-formulario{
     background: #fff;
     color: #000;
