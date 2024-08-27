@@ -26,7 +26,15 @@ export default defineComponent({
     data() {
         return {
             nomeDoProjeto: '',
-            
+        }
+    },
+    props:{
+        id: { type: String}
+    },
+    mounted(){
+        if(this.id){
+            const projeto = this.store.state.projetos.find( proj => proj.id == this.id)
+            this.nomeDoProjeto = projeto?.nome || ''
         }
     },
     setup(){
@@ -37,7 +45,11 @@ export default defineComponent({
     },
     methods: {
         salvar() {
-            this.store.commit('ADICIONA_PROJETO', this.nomeDoProjeto)
+            if (this.id) {
+                this.store.commit('ALTERA_PROJETO', { nome: this.nomeDoProjeto, id: this.id })
+            } else {
+                this.store.commit('ADICIONA_PROJETO', this.nomeDoProjeto)   
+            }
             this.nomeDoProjeto = ''
             this.$router.push('/projetos')
 

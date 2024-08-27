@@ -21,7 +21,8 @@ const rotas: RouteRecordRaw[] = [{
 {
     path: '/projetos/:id',
     name: 'Editar projeto',
-    component: FormularioProjetos
+    component: FormularioProjetos,
+    props: true
 }]
 
 const roteador = createRouter({
