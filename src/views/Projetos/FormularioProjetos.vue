@@ -19,6 +19,7 @@
 <script lang="ts">
 
 import { useStore } from '@/store';
+import { ADICIONA_PROJETO, ALTERA_PROJETO } from '@/store/tipos-multacoes';
 import { defineComponent } from 'vue';
 
 export default defineComponent({
@@ -46,9 +47,9 @@ export default defineComponent({
     methods: {
         salvar() {
             if (this.id) {
-                this.store.commit('ALTERA_PROJETO', { nome: this.nomeDoProjeto, id: this.id })
+                this.store.commit(ALTERA_PROJETO, { nome: this.nomeDoProjeto, id: this.id })
             } else {
-                this.store.commit('ADICIONA_PROJETO', this.nomeDoProjeto)   
+                this.store.commit(ADICIONA_PROJETO, this.nomeDoProjeto)   
             }
             this.nomeDoProjeto = ''
             this.$router.push('/projetos')

@@ -26,6 +26,11 @@
                                 <i class="fas fa-pencil-alt"></i>
                             </span>
                         </router-link>
+                        <button class="button ml-2 is-danger" @click="excluir(projeto.id)">
+                            <span class="icon is-small">
+                                <i class="fas fa-trash"></i>
+                            </span>
+                        </button>
                     </td>
                 </tr>
             </tbody>
@@ -37,36 +42,47 @@
 <script lang="ts">
 
 import { useStore } from '@/store';
+import { EXCLUIR_PROJETO } from '@/store/tipos-multacoes';
 import { computed, defineComponent } from 'vue';
 
 export default defineComponent({
     name: 'ListaDeProjetos',
-    setup(){
+    setup() {
         const store = useStore()
         return {
-            projetos: computed(()=> store.state.projetos)
+            projetos: computed(() => store.state.projetos),
+            store
+        }
+    },
+    methods: {
+        excluir(id: string) {
+            this.store.commit(EXCLUIR_PROJETO, id)
         }
     }
 })
 </script>
 
 <style scoped>
-.title{
+.title {
     color: var(--cor-primaria);
 }
-.input-formulario{
+
+.input-formulario {
     background: #fff;
     color: #000;
 }
-.input-formulario::placeholder{
+
+.input-formulario::placeholder {
     color: #000;
 }
-.tabela-projetos{
+
+.tabela-projetos {
     background: #fff;
     margin-top: 1em;
 }
-.texto-da-tabela{
+
+.texto-da-tabela {
     color: #000;
-    
+
 }
 </style>
