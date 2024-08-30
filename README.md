@@ -1,4 +1,4 @@
-# alura-tracker
+# Tracker de Atividades
 
 ## Project setup
 ```
