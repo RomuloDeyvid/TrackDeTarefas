@@ -1,5 +1,4 @@
 import IProjeto from "@/interfaces/IProjeto";
-import Projetos from "@/views/Projetos.vue";
 import { InjectionKey } from "vue";
 import { createStore, Store, useStore as vuexUseStore } from "vuex";
 import { ADICIONA_PROJETO, ADICIONA_TAREFA, ALTERA_PROJETO, ATUALIZA_TAREFA, EXCLUIR_PROJETO, REMOVE_TAREFA } from "./tipos-multacoes";

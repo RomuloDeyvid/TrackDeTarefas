@@ -1,18 +1,15 @@
 <script lang="ts">
-import { defineComponent } from 'vue';
+import { computed, defineComponent } from 'vue';
 import Formulario from '../components/Formulario.vue';
 import Tarefa from '../components/Tarefa.vue';
 import ITarefa from '../interfaces/ITarefa';
 import Box from '../components/Box.vue';
+import { useStore } from '@/store';
+import { ADICIONA_TAREFA } from '@/store/tipos-multacoes';
 
 
 export default defineComponent({
   name: 'App',
-  data() {
-    return {
-      tarefas: [] as ITarefa[]
-    }
-  },
   computed: {
     listaEstaVazia(): boolean {
       return this.tarefas.length === 0
@@ -21,7 +18,14 @@ export default defineComponent({
   components: { Formulario, Tarefa, Box },
   methods: {
     salvarTarefa(tarefa: ITarefa) {
-      this.tarefas.push(tarefa)
+      this.store.commit(ADICIONA_TAREFA, tarefa)
+    }
+  },
+  setup(){
+    const store = useStore()
+    return {
+      store,
+      tarefas: computed(() => store.state.tarefas)
     }
   }
 
