@@ -1,12 +1,12 @@
 <script lang="ts">
-import { computed, PropType } from 'vue';
+import { computed, defineComponent, PropType } from 'vue';
 import Cronometro from './Cronometro.vue';
 import ITarefa from '../interfaces/ITarefa';
 import Box from './Box.vue';
 import { useStore } from '@/store';
 import { REMOVE_TAREFA } from '@/store/tipos-multacoes';
 
-export default {
+export default defineComponent({
     name: 'TarefaFormulario',
     props: {
         tarefa: { type: Object as PropType<ITarefa>, required: true }
@@ -16,14 +16,15 @@ export default {
         const store = useStore()
         return {
             store,
-            tarefas: computed(() => store.state.tarefas),
-            
-            excluir(id: string){
+            tarefas: computed(() => store.state.tarefas)
+        }
+    },
+    methods: {
+        excluir(id: string){
             this.store.commit(REMOVE_TAREFA, id)
         }
-        }
     }
-}
+})
 </script>
 
 <template>
