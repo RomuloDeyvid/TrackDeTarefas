@@ -6,7 +6,7 @@
     </div>
 
     <div class="box column is-three-quarter conteudo">
-      <!-- <Notificacoes /> -->
+      <Notificacoes />
       <router-view/>
 
     </div>
@@ -18,7 +18,7 @@
 <script lang="ts">
 import { defineComponent } from 'vue';
 import BarraLateral from './components/BarraLateral.vue';
-// import Notificacoes from './components/Notificacoes.vue';
+import Notificacoes from './components/Notificacoes.vue';
 
 
 
@@ -29,7 +29,7 @@ export default defineComponent({
       modoEscuroAtivo: false
     }
   },
-  components: { BarraLateral },
+  components: { BarraLateral, Notificacoes },
   methods: {
     trocarOTema(modoEscuroAtivo : boolean){
       this.modoEscuroAtivo = modoEscuroAtivo

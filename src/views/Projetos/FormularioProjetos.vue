@@ -18,9 +18,10 @@
 
 <script lang="ts">
 
+import { TipoDeNotificacao } from '@/interfaces/INotificacao';
 import { useStore } from '@/store';
-import { ADICIONA_PROJETO, ALTERA_PROJETO } from '@/store/tipos-multacoes';
-import { defineComponent } from 'vue';
+import { ADICIONA_PROJETO, ALTERA_PROJETO, NOTIFICAR } from '@/store/tipos-multacoes';
+import { computed, defineComponent } from 'vue';
 
 export default defineComponent({
     name: 'FormularioProjetos',
@@ -41,7 +42,8 @@ export default defineComponent({
     setup(){
         const store = useStore()
         return {
-            store
+            store,
+            notificacoes: computed(() => store.state.notificacoes)
         }
     },
     methods: {
@@ -51,6 +53,9 @@ export default defineComponent({
             } else {
                 this.store.commit(ADICIONA_PROJETO, this.nomeDoProjeto)   
             }
+
+            this.store.commit(NOTIFICAR, { titulo: 'Sucesso', texto: 'O projeto foi adicionado com sucesso :)', tipo: TipoDeNotificacao.SUCESSO })
+
             this.nomeDoProjeto = ''
             this.$router.push('/projetos')
 
