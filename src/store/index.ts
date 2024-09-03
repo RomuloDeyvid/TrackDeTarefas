@@ -3,7 +3,7 @@ import { InjectionKey } from "vue";
 import { createStore, Store, useStore as vuexUseStore } from "vuex";
 import { ADICIONA_PROJETO, ADICIONA_TAREFA, ALTERA_PROJETO, ATUALIZA_TAREFA, EXCLUIR_PROJETO, NOTIFICAR, REMOVE_TAREFA } from "./tipos-multacoes";
 import ITarefa from "@/interfaces/ITarefa";
-import { INotificacao, TipoDeNotificacao } from "@/interfaces/INotificacao";
+import { INotificacao } from "@/interfaces/INotificacao";
 
 interface Estado {
     projetos: IProjeto[],

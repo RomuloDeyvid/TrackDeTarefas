@@ -27,7 +27,5 @@ export default defineComponent({
 </template>
 
 <style scoped>
-.display {
-    color: var(--texto-primario);
-}
+
 </style>

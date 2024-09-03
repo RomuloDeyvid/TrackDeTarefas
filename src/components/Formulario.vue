@@ -2,9 +2,9 @@
 import { computed, defineComponent } from 'vue';
 import Temporizador from './Temporizador.vue';
 import { useStore } from 'vuex';
-import { key, store } from '@/store';
-import { NOTIFICAR } from '@/store/tipos-multacoes';
+import { key } from '@/store';
 import { TipoDeNotificacao } from '@/interfaces/INotificacao';
+import { notificacaoMixin } from '@/mixins/notificar';
 
 
 export default defineComponent({
@@ -16,6 +16,7 @@ export default defineComponent({
             idProjeto: ''
         }
     },
+    mixins: [notificacaoMixin],
     setup() {
         const store = useStore(key)
         return {
@@ -37,7 +38,7 @@ export default defineComponent({
 
                 this.descricao = ''
             } else {
-                this.store.commit(NOTIFICAR, { titulo: 'Atenção', texto: 'Adicione o tipo de Projeto para finalizar a tarefa', tipo: TipoDeNotificacao.ATENCAO })
+                this.notificar('Atenção', 'Adicione o tipo de Projeto para finalizar a tarefa', TipoDeNotificacao.ATENCAO  )
             }
         }
     },

@@ -41,6 +41,8 @@
 
 <script lang="ts">
 
+import { TipoDeNotificacao } from '@/interfaces/INotificacao';
+import { notificacaoMixin } from '@/mixins/notificar';
 import { useStore } from '@/store';
 import { EXCLUIR_PROJETO } from '@/store/tipos-multacoes';
 import { computed, defineComponent } from 'vue';
@@ -54,9 +56,11 @@ export default defineComponent({
             store
         }
     },
+    mixins: [notificacaoMixin],
     methods: {
         excluir(id: string) {
             this.store.commit(EXCLUIR_PROJETO, id)
+            this.notificar('Atenção', 'O projeto selecionado foi excluido', TipoDeNotificacao.FALHA)
         }
     }
 })

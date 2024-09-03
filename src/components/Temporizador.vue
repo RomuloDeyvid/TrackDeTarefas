@@ -2,6 +2,8 @@
 import { defineComponent } from 'vue';
 import BotaoTemporizador from './BotaoTemporizador.vue';
 import Cronometro from './Cronometro.vue';
+import { notificacaoMixin } from '@/mixins/notificar';
+import { TipoDeNotificacao } from '@/interfaces/INotificacao';
 
 export default defineComponent({
     components: { Cronometro, BotaoTemporizador },
@@ -13,6 +15,7 @@ export default defineComponent({
             cronometroRodando: false
         }
     },
+    mixins: [notificacaoMixin],
     methods: {
         iniciar() {
             this.cronometroRodando = true
@@ -25,6 +28,7 @@ export default defineComponent({
             clearInterval(this.cronometro)
             this.$emit('aoTemporizadorFinalizado', this.tempoEmSegundos)
             this.tempoEmSegundos = 0
+            this.notificar('Sucesso', 'A tarefa foi finalizada', TipoDeNotificacao.SUCESSO)
         }
     },
     emits: ['aoTemporizadorFinalizado']
