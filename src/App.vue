@@ -49,7 +49,7 @@ main {
 }
 main.modo-escuro{
   --bg-primario: #2b2d42;
-  --texto-primario: grey;
+  --texto-primario: #fff;
 }
 .conteudo{
   background-color: var(--bg-primario);

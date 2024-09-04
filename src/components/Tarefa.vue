@@ -33,7 +33,7 @@ export default defineComponent({
 </script>
 
 <template>
-    <Box>
+    <Box class="box">
         <div class="columns">
             <div class="column is-4">{{ tarefa.descricao || 'Tarefa sem descricão' }}</div>
             <div class="column is-3"> {{ tarefa.projeto?.nome || 'N/D' }}</div>
@@ -52,8 +52,5 @@ export default defineComponent({
 </template>
 
 <style scoped>
-.box {
-    color: #fff;
-    background: #12252B;
-}
+
 </style>
