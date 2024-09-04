@@ -5,27 +5,28 @@ import ITarefa from '../interfaces/ITarefa';
 import Box from './Box.vue';
 import { useStore } from '@/store';
 import { REMOVE_TAREFA } from '@/store/tipos-multacoes';
-import { notificacaoMixin } from '@/mixins/notificar';
 import { TipoDeNotificacao } from '@/interfaces/INotificacao';
+import useNotificador from '@/hooks/notificador'
 
 export default defineComponent({
     name: 'TarefaFormulario',
     props: {
         tarefa: { type: Object as PropType<ITarefa>, required: true }
     },
-    mixins: [notificacaoMixin],
     components: { Cronometro, Box },
     setup(){
         const store = useStore()
+        const { notificar } = useNotificador()
         return {
             store,
-            tarefas: computed(() => store.state.tarefas)
+            tarefas: computed(() => store.state.tarefas),
+            notificar
         }
     },
     methods: {
         excluir(id: string){
             this.store.commit(REMOVE_TAREFA, id)
-            this.notificar('Atenção', 'A tarefa selecionada foi excluida', TipoDeNotificacao.FALHA)
+            this.notificar(TipoDeNotificacao.FALHA, 'Atenção', 'A tarefa selecionada foi excluida')
         }
     }
 })
