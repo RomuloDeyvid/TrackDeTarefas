@@ -14,7 +14,7 @@ export default defineComponent({
         tarefa: { type: Object as PropType<ITarefa>, required: true }
     },
     components: { Cronometro, Box },
-    setup(){
+    setup() {
         const store = useStore()
         const { notificar } = useNotificador()
         return {
@@ -24,7 +24,7 @@ export default defineComponent({
         }
     },
     methods: {
-        excluir(id: string){
+        excluir(id: string) {
             this.store.commit(REMOVE_TAREFA, id)
             this.notificar(TipoDeNotificacao.FALHA, 'Atenção', 'A tarefa selecionada foi excluida')
         }
@@ -41,6 +41,11 @@ export default defineComponent({
                 <Cronometro :tempoEmSegundos="tarefa.duracaoEmSegundos" />
             </div>
             <div class="column">
+                <button class="button ml-2">
+                    <span class="icon is-small">
+                        <i class="fas fa-pencil-alt"></i>
+                    </span>
+                </button>
                 <button class="button ml-2 is-danger" @click="excluir(tarefa.id)">
                     <span class="icon is-small">
                         <i class="fas fa-trash"></i>
@@ -51,6 +56,4 @@ export default defineComponent({
     </Box>
 </template>
 
-<style scoped>
-
-</style>
+<style scoped></style>

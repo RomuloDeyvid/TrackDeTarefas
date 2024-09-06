@@ -1,12 +1,59 @@
 {
   "projetos": [
     {
-      "id": "2eec",
+      "id": "490d",
       "nome": "Estudando JS"
     },
     {
-      "id": "4f88",
+      "id": "7306",
       "nome": "Estudando VueJs"
+    }
+  ],
+  "tarefas": [
+    {
+      "duracaoEmSegundos": 3,
+      "descricao": "descricao da tarefa aqui",
+      "projeto": {
+        "id": "490d",
+        "nome": "Estudando JS"
+      },
+      "id": 1
+    },
+    {
+      "id": "1a09",
+      "duracaoEmSegundos": 1,
+      "descricao": "AQQQ",
+      "projeto": {
+        "id": "490d",
+        "nome": "Estudando JS"
+      }
+    },
+    {
+      "id": "af19",
+      "duracaoEmSegundos": 1,
+      "descricao": "TESTE 2",
+      "projeto": {
+        "id": "490d",
+        "nome": "Estudando JS"
+      }
+    },
+    {
+      "id": "133b",
+      "duracaoEmSegundos": 1,
+      "descricao": "teste3",
+      "projeto": {
+        "id": "490d",
+        "nome": "Estudando JS"
+      }
+    },
+    {
+      "id": "059e",
+      "duracaoEmSegundos": 0,
+      "descricao": "teste4",
+      "projeto": {
+        "id": "7306",
+        "nome": "Estudando VueJs"
+      }
     }
   ]
 }
