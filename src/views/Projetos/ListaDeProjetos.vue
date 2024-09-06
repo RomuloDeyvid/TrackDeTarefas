@@ -44,6 +44,7 @@
 import { TipoDeNotificacao } from '@/interfaces/INotificacao';
 import { notificacaoMixin } from '@/mixins/notificar';
 import { useStore } from '@/store';
+import { OBTER_PROJETOS, REMOVER_PROJETO } from '@/store/tipos-acoes';
 import { EXCLUIR_PROJETO } from '@/store/tipos-multacoes';
 import { computed, defineComponent } from 'vue';
 
@@ -51,6 +52,7 @@ export default defineComponent({
     name: 'ListaDeProjetos',
     setup() {
         const store = useStore()
+        store.dispatch(OBTER_PROJETOS)
         return {
             projetos: computed(() => store.state.projetos),
             store
@@ -59,7 +61,7 @@ export default defineComponent({
     mixins: [notificacaoMixin],
     methods: {
         excluir(id: string) {
-            this.store.commit(EXCLUIR_PROJETO, id)
+            this.store.dispatch(REMOVER_PROJETO, id)
             this.notificar('Atenção', 'O projeto selecionado foi excluido', TipoDeNotificacao.FALHA)
         }
     }

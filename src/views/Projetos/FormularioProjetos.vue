@@ -1,17 +1,18 @@
 <template>
 
     <section>
-        
+
         <form @submit.prevent="salvar">
             <div class="field">
                 <label for="nomeDoProjeto" class="label title">Nome do Projeto</label>
-                <input type="text" class="input input-formulario" v-model="nomeDoProjeto" id="nomeDoProjeto" placeholder="Digite o nome do Projeto">
+                <input type="text" class="input input-formulario" v-model="nomeDoProjeto" id="nomeDoProjeto"
+                    placeholder="Digite o nome do Projeto">
             </div>
             <div class="field">
                 <button class="button is-white" type="submit">Salvar</button>
             </div>
         </form>
-        
+
     </section>
 
 </template>
@@ -21,7 +22,8 @@
 import { TipoDeNotificacao } from '@/interfaces/INotificacao';
 import { notificacaoMixin } from '@/mixins/notificar';
 import { useStore } from '@/store';
-import { ADICIONA_PROJETO, ALTERA_PROJETO} from '@/store/tipos-multacoes';
+import { ALTERAR_PROJETO, CADASTRAR_PROJETO } from '@/store/tipos-acoes';
+import { ADICIONA_PROJETO, ALTERA_PROJETO } from '@/store/tipos-multacoes';
 import { computed, defineComponent } from 'vue';
 
 export default defineComponent({
@@ -32,16 +34,16 @@ export default defineComponent({
         }
     },
     mixins: [notificacaoMixin],
-    props:{
-        id: { type: String}
+    props: {
+        id: { type: String }
     },
-    mounted(){
-        if(this.id){
-            const projeto = this.store.state.projetos.find( proj => proj.id == this.id)
+    mounted() {
+        if (this.id) {
+            const projeto = this.store.state.projetos.find(proj => proj.id == this.id)
             this.nomeDoProjeto = projeto?.nome || ''
         }
     },
-    setup(){
+    setup() {
         const store = useStore()
         return {
             store,
@@ -51,38 +53,47 @@ export default defineComponent({
     methods: {
         salvar() {
             if (this.id) {
-                this.store.commit(ALTERA_PROJETO, { nome: this.nomeDoProjeto, id: this.id })
-                this.notificar('Atenção', 'O projeto foi alterado com sucesso', TipoDeNotificacao.ATENCAO)
+                this.store.dispatch(ALTERAR_PROJETO, { nome: this.nomeDoProjeto, id: this.id })
+                .then(() => {
+                    this.lidarComSucesso('Atenção', 'O projeto foi alterado com sucesso', TipoDeNotificacao.ATENCAO)
+                })
             } else {
-                this.store.commit(ADICIONA_PROJETO, this.nomeDoProjeto)   
-                this.notificar('Sucesso', 'O projeto foi adicionado com sucesso :)', TipoDeNotificacao.SUCESSO)
+                this.store.dispatch(CADASTRAR_PROJETO, this.nomeDoProjeto)
+                    .then(() => {
+                        this.lidarComSucesso('Sucesso', 'O projeto foi adicionado com sucesso :)', TipoDeNotificacao.SUCESSO)
+                    })
             }
+        },
+        lidarComSucesso(titulo: string, texto: string, tipo: TipoDeNotificacao) {
+            this.notificar(titulo, texto, tipo)
             this.nomeDoProjeto = ''
             this.$router.push('/projetos')
-
         }
     }
 })
 </script>
 
 <style scoped>
-.title{
+.title {
     color: var(--cor-primaria);
 }
 
-.input-formulario{
+.input-formulario {
     background: #fff;
     color: #000;
 }
-.input-formulario::placeholder{
+
+.input-formulario::placeholder {
     color: #000;
 }
-.tabela-projetos{
+
+.tabela-projetos {
     background: #fff;
     margin-top: 1em;
 }
-.texto-da-tabela{
+
+.texto-da-tabela {
     color: #000;
-    
+
 }
 </style>
