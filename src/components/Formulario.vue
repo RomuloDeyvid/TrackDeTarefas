@@ -1,47 +1,40 @@
 <script lang="ts">
-import { computed, defineComponent } from 'vue';
+import { computed, defineComponent, ref } from 'vue';
 import Temporizador from './Temporizador.vue';
 import { useStore } from 'vuex';
 import { key } from '@/store';
 import { TipoDeNotificacao } from '@/interfaces/INotificacao';
-import { notificacaoMixin } from '@/mixins/notificar';
-
+import useNotificador from "@/hooks/notificador"
 
 export default defineComponent({
 
     name: 'FormularioInput',
-    data() {
-        return {
-            descricao: '',
-            idProjeto: ''
-        }
-    },
-    mixins: [notificacaoMixin],
-    setup() {
+    setup(props, {emit}) {
+        const descricao = ref('')
+        const idProjeto = ref('')
         const store = useStore(key)
+        const { notificar } = useNotificador()
+        const projetos = computed(() => store.state.projeto.projetos)
+        const finalizarTarefa = (tempoDecorrido: number): void => {
+            if (idProjeto.value) {
+                emit('aoSalvarTarefa', {
+                    duracaoEmSegundos: tempoDecorrido,
+                    descricao: descricao.value,
+                    projeto: projetos.value.find(proj => proj.id == idProjeto.value)
+                })
+                descricao.value = ''
+            } else {
+                notificar(TipoDeNotificacao.ATENCAO, 'Atenção', 'Adicione o tipo de Projeto para finalizar a tarefa')
+            }
+        }
         return {
-            store,
-            projetos: computed(() => store.state.projeto.projetos),
-            notificacoes: computed(() => store.state.notificar.notificacoes)
+            descricao,
+            idProjeto,
+            projetos,
+            finalizarTarefa
         }
     },
     components: { Temporizador },
-    methods: {
-        finalizarTarefa(tempoDecorrido: number): void {
-
-            if (this.idProjeto) {
-                this.$emit('aoSalvarTarefa', {
-                    duracaoEmSegundos: tempoDecorrido,
-                    descricao: this.descricao,
-                    projeto: this.projetos.find(proj => proj.id == this.idProjeto)
-                })
-
-                this.descricao = ''
-            } else {
-                this.notificar('Atenção', 'Adicione o tipo de Projeto para finalizar a tarefa', TipoDeNotificacao.ATENCAO  )
-            }
-        }
-    },
     emits: ['aoSalvarTarefa']
 })
 </script>

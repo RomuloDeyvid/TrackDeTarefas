@@ -43,12 +43,13 @@ export default defineComponent({
         }
         const salvar = () => {
             if (props.id) {
-                store.dispatch(ALTERAR_PROJETO, { nome: nomeDoProjeto, id: props.id })
+                store.dispatch(ALTERAR_PROJETO, { nome: nomeDoProjeto.value, id: props.id })
                     .then(() => {
                         lidarComSucesso('Atenção', 'O projeto foi alterado com sucesso', TipoDeNotificacao.ATENCAO)
                     })
             } else {
-                store.dispatch(CADASTRAR_PROJETO, nomeDoProjeto)
+
+                store.dispatch(CADASTRAR_PROJETO, nomeDoProjeto.value)
                     .then(() => {
                         lidarComSucesso('Sucesso', 'O projeto foi adicionado com sucesso :)', TipoDeNotificacao.SUCESSO)
                     })
