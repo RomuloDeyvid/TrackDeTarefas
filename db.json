@@ -13,15 +13,5 @@
       "nome": "Estudando Typescript"
     }
   ],
-  "tarefas": [
-    {
-      "id": "b5d9",
-      "duracaoEmSegundos": 2,
-      "descricao": "testes",
-      "projeto": {
-        "id": "db28",
-        "nome": "Estudando VueJs"
-      }
-    }
-  ]
+  "tarefas": []
 }

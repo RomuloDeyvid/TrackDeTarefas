@@ -20,53 +20,48 @@
 <script lang="ts">
 
 import { TipoDeNotificacao } from '@/interfaces/INotificacao';
-import { notificacaoMixin } from '@/mixins/notificar';
 import { useStore } from '@/store';
 import { ALTERAR_PROJETO, CADASTRAR_PROJETO } from '@/store/tipos-acoes';
-import { computed, defineComponent } from 'vue';
+import { computed, defineComponent, ref } from 'vue';
+import useNotificador from '@/hooks/notificador'
+import { useRouter } from 'vue-router';
 
 export default defineComponent({
     name: 'FormularioProjetos',
-    data() {
-        return {
-            nomeDoProjeto: '',
-        }
-    },
-    mixins: [notificacaoMixin],
     props: {
         id: { type: String }
     },
-    mounted() {
-        if (this.id) {
-            const projeto = this.store.state.projeto.projetos.find(proj => proj.id == this.id)
-            this.nomeDoProjeto = projeto?.nome || ''
-        }
-    },
-    setup() {
+    setup(props) {
         const store = useStore()
-        return {
-            store,
-            notificacoes: computed(() => store.state.notificar.notificacoes)
+        const { notificar } = useNotificador()
+        const nomeDoProjeto = ref('')
+        const router = useRouter()
+
+        if (props.id) {
+            const projeto = store.state.projeto.projetos.find(proj => proj.id == props.id)
+            nomeDoProjeto.value = projeto?.nome || ''
         }
-    },
-    methods: {
-        salvar() {
-            if (this.id) {
-                this.store.dispatch(ALTERAR_PROJETO, { nome: this.nomeDoProjeto, id: this.id })
-                .then(() => {
-                    this.lidarComSucesso('Atenção', 'O projeto foi alterado com sucesso', TipoDeNotificacao.ATENCAO)
-                })
-            } else {
-                this.store.dispatch(CADASTRAR_PROJETO, this.nomeDoProjeto)
+        const salvar = () => {
+            if (props.id) {
+                store.dispatch(ALTERAR_PROJETO, { nome: nomeDoProjeto, id: props.id })
                     .then(() => {
-                        this.lidarComSucesso('Sucesso', 'O projeto foi adicionado com sucesso :)', TipoDeNotificacao.SUCESSO)
+                        lidarComSucesso('Atenção', 'O projeto foi alterado com sucesso', TipoDeNotificacao.ATENCAO)
+                    })
+            } else {
+                store.dispatch(CADASTRAR_PROJETO, nomeDoProjeto)
+                    .then(() => {
+                        lidarComSucesso('Sucesso', 'O projeto foi adicionado com sucesso :)', TipoDeNotificacao.SUCESSO)
                     })
             }
-        },
-        lidarComSucesso(titulo: string, texto: string, tipo: TipoDeNotificacao) {
-            this.notificar(titulo, texto, tipo)
-            this.nomeDoProjeto = ''
-            this.$router.push('/projetos')
+        }
+        const lidarComSucesso = (titulo: string, texto: string, tipo: TipoDeNotificacao) => {
+            notificar(tipo, titulo, texto)
+            nomeDoProjeto.value = ''
+            router.push('/projetos')
+        }
+        return {
+            nomeDoProjeto,
+            salvar
         }
     }
 })
