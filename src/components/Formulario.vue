@@ -21,8 +21,8 @@ export default defineComponent({
         const store = useStore(key)
         return {
             store,
-            projetos: computed(() => store.state.projetos),
-            notificacoes: computed(() => store.state.notificacoes)
+            projetos: computed(() => store.state.projeto.projetos),
+            notificacoes: computed(() => store.state.notificar.notificacoes)
         }
     },
     components: { Temporizador },

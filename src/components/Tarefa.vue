@@ -4,7 +4,6 @@ import Cronometro from './Cronometro.vue';
 import ITarefa from '../interfaces/ITarefa';
 import Box from './Box.vue';
 import { useStore } from '@/store';
-
 import { TipoDeNotificacao } from '@/interfaces/INotificacao';
 import useNotificador from '@/hooks/notificador'
 import { REMOVER_TAREFA } from '@/store/tipos-acoes';
@@ -20,7 +19,7 @@ export default defineComponent({
         const { notificar } = useNotificador()
         return {
             store,
-            tarefas: computed(() => store.state.tarefas),
+            tarefas: computed(() => store.state.tarefa.tarefas),
             notificar
         }
     },

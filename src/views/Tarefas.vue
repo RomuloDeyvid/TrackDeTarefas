@@ -6,6 +6,8 @@ import ITarefa from '../interfaces/ITarefa';
 import Box from '../components/Box.vue';
 import { useStore } from '@/store';
 import { ALTERAR_TAREFA, CADASTRAR_TAREFA, OBTER_PROJETOS, OBTER_TAREFAS } from '@/store/tipos-acoes';
+import { NOTIFICAR } from '@/store/tipos-multacoes';
+import { TipoDeNotificacao } from '@/interfaces/INotificacao';
 
 
 export default defineComponent({
@@ -34,6 +36,7 @@ export default defineComponent({
     editarTarefa(){
       this.store.dispatch(ALTERAR_TAREFA, this.tarefaSelecionada )
       .then(this.fecharModal)
+      this.store.commit(NOTIFICAR, {titulo: 'Atenção', texto: 'A tarefa foi alterada', tipo: TipoDeNotificacao.ATENCAO})
     }
 
   },
@@ -43,7 +46,7 @@ export default defineComponent({
     store.dispatch(OBTER_PROJETOS)
     return {
       store,
-      tarefas: computed(() => store.state.tarefas)
+      tarefas: computed(() => store.state.tarefa.tarefas)
     }
   }
 

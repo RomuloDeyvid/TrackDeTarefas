@@ -1,13 +1,27 @@
 {
   "projetos": [
     {
-      "id": "490d",
+      "id": "f2c9",
       "nome": "Estudando JS"
     },
     {
-      "id": "7306",
+      "id": "db28",
       "nome": "Estudando VueJs"
+    },
+    {
+      "id": "8872",
+      "nome": "Estudando Typescript"
     }
   ],
-  "tarefas": []
+  "tarefas": [
+    {
+      "id": "b5d9",
+      "duracaoEmSegundos": 2,
+      "descricao": "testes",
+      "projeto": {
+        "id": "db28",
+        "nome": "Estudando VueJs"
+      }
+    }
+  ]
 }

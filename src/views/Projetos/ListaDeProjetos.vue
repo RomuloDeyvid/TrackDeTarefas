@@ -45,7 +45,6 @@ import { TipoDeNotificacao } from '@/interfaces/INotificacao';
 import { notificacaoMixin } from '@/mixins/notificar';
 import { useStore } from '@/store';
 import { OBTER_PROJETOS, REMOVER_PROJETO } from '@/store/tipos-acoes';
-import { EXCLUIR_PROJETO } from '@/store/tipos-multacoes';
 import { computed, defineComponent } from 'vue';
 
 export default defineComponent({
@@ -54,7 +53,7 @@ export default defineComponent({
         const store = useStore()
         store.dispatch(OBTER_PROJETOS)
         return {
-            projetos: computed(() => store.state.projetos),
+            projetos: computed(() => store.state.projeto.projetos),
             store
         }
     },

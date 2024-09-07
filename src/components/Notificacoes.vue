@@ -32,7 +32,7 @@ export default defineComponent({
     setup(){
         const store = useStore()
         return{
-            notificacoes: computed(() => store.state.notificacoes)
+            notificacoes: computed(() => store.state.notificar.notificacoes)
         }
     }
 })
