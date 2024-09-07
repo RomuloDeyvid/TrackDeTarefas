@@ -1,10 +1,10 @@
 import IProjeto from "@/interfaces/IProjeto";
 import { InjectionKey } from "vue";
 import { createStore, Store, useStore as vuexUseStore } from "vuex";
-import { ADICIONA_PROJETO, ADICIONA_TAREFA, ALTERA_PROJETO, ATUALIZA_TAREFA, DEFINIR_PROJETOS, DEFINIR_TAREFAS, EXCLUIR_PROJETO, NOTIFICAR, REMOVE_TAREFA } from "./tipos-multacoes";
+import { ADICIONA_PROJETO, ADICIONA_TAREFA, ALTERA_PROJETO, ALTERA_TAREFA, DEFINIR_PROJETOS, DEFINIR_TAREFAS, EXCLUIR_PROJETO, EXCLUIR_TAREFA, NOTIFICAR } from "./tipos-multacoes";
 import ITarefa from "@/interfaces/ITarefa";
 import { INotificacao } from "@/interfaces/INotificacao";
-import { ALTERAR_PROJETO, CADASTRAR_PROJETO, CADASTRAR_TAREFA, OBTER_PROJETOS, OBTER_TAREFAS, REMOVER_PROJETO } from "./tipos-acoes";
+import { ALTERAR_PROJETO, ALTERAR_TAREFA, CADASTRAR_PROJETO, CADASTRAR_TAREFA, OBTER_PROJETOS, OBTER_TAREFAS, REMOVER_PROJETO, REMOVER_TAREFA } from "./tipos-acoes";
 import http from "@/http"
 
 interface Estado {
@@ -35,14 +35,13 @@ export const store = createStore<Estado>({
             state.projetos = state.projetos.filter(proj => proj.id != id)
         },
         [ADICIONA_TAREFA](state, tarefa: ITarefa) {
-            tarefa.id = new Date().toISOString()
             state.tarefas.push(tarefa)
         },
-        [ATUALIZA_TAREFA](state, tarefa: ITarefa) {
+        [ALTERA_TAREFA](state, tarefa: ITarefa) {
             const index = state.tarefas.findIndex(tarefaDaVez => tarefaDaVez.id == tarefa.id)
             state.tarefas[index] = tarefa
         },
-        [REMOVE_TAREFA](state, id: string) {
+        [EXCLUIR_TAREFA](state, id: number) {
             state.tarefas = state.tarefas.filter(tarefaDaVez => tarefaDaVez.id != id)
         },
         [NOTIFICAR](state, novaNotificao: INotificacao){
@@ -82,6 +81,14 @@ export const store = createStore<Estado>({
         [CADASTRAR_TAREFA] ({ commit }, tarefa: ITarefa){
             return http.post('tarefas', tarefa)
             .then(resposta => commit(ADICIONA_TAREFA, resposta.data))
+        },
+        [ALTERAR_TAREFA] ({commit}, tarefa: ITarefa){
+            return http.put(`tarefas/${tarefa.id}`, tarefa)
+            .then(() => commit(ALTERA_TAREFA, tarefa))
+        },
+        [REMOVER_TAREFA] ({ commit }, tarefa: ITarefa ){
+            return http.delete(`tarefas/${tarefa.id}`)
+            .then(() => commit(EXCLUIR_TAREFA, tarefa.id))
         }
     }
 })

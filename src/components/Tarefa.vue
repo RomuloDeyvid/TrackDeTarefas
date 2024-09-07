@@ -4,9 +4,10 @@ import Cronometro from './Cronometro.vue';
 import ITarefa from '../interfaces/ITarefa';
 import Box from './Box.vue';
 import { useStore } from '@/store';
-import { REMOVE_TAREFA } from '@/store/tipos-multacoes';
+
 import { TipoDeNotificacao } from '@/interfaces/INotificacao';
 import useNotificador from '@/hooks/notificador'
+import { REMOVER_TAREFA } from '@/store/tipos-acoes';
 
 export default defineComponent({
     name: 'TarefaFormulario',
@@ -24,16 +25,20 @@ export default defineComponent({
         }
     },
     methods: {
-        excluir(id: string) {
-            this.store.commit(REMOVE_TAREFA, id)
+        excluir() {
+            this.store.dispatch(REMOVER_TAREFA, this.tarefa)
             this.notificar(TipoDeNotificacao.FALHA, 'Atenção', 'A tarefa selecionada foi excluida')
+        },
+        tarefaClicada(): void{
+            this.$emit('aoTarefaClicada', this.tarefa)
         }
-    }
+    },
+    emits: [ 'aoTarefaClicada']
 })
 </script>
 
 <template>
-    <Box class="box">
+    <Box class="box clicavel">
         <div class="columns">
             <div class="column is-4">{{ tarefa.descricao || 'Tarefa sem descricão' }}</div>
             <div class="column is-3"> {{ tarefa.projeto?.nome || 'N/D' }}</div>
@@ -41,12 +46,12 @@ export default defineComponent({
                 <Cronometro :tempoEmSegundos="tarefa.duracaoEmSegundos" />
             </div>
             <div class="column">
-                <button class="button ml-2">
+                <button class="button ml-2" @click="tarefaClicada">
                     <span class="icon is-small">
                         <i class="fas fa-pencil-alt"></i>
                     </span>
                 </button>
-                <button class="button ml-2 is-danger" @click="excluir(tarefa.id)">
+                <button class="button ml-2 is-danger" @click="excluir()">
                     <span class="icon is-small">
                         <i class="fas fa-trash"></i>
                     </span>
@@ -56,4 +61,8 @@ export default defineComponent({
     </Box>
 </template>
 
-<style scoped></style>
+<style scoped>
+.clicavel{
+    cursor: pointer;
+}
+</style>

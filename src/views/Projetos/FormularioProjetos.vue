@@ -23,7 +23,6 @@ import { TipoDeNotificacao } from '@/interfaces/INotificacao';
 import { notificacaoMixin } from '@/mixins/notificar';
 import { useStore } from '@/store';
 import { ALTERAR_PROJETO, CADASTRAR_PROJETO } from '@/store/tipos-acoes';
-import { ADICIONA_PROJETO, ALTERA_PROJETO } from '@/store/tipos-multacoes';
 import { computed, defineComponent } from 'vue';
 
 export default defineComponent({
