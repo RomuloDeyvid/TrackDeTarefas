@@ -16,28 +16,26 @@
     </Box>
 
   </div>
-  <div :class="['modal', { 'is-active': tarefaSelecionada }]" v-if="tarefaSelecionada">
-    <div class="modal-background" @click="fecharModal"></div>
-    <div class="modal-card">
-      <header class="modal-card-head">
-        <p class="modal-card-title">Editando uma tarefa</p>
-        <button class="delete" aria-label="close" @click="fecharModal"></button>
-      </header>
-      <section class="modal-card-body">
-        <div class="field">
-          <label for="nomeDaTarefa" class="label title">Nome do Tarefa</label>
-          <input type="text" class="input input-formulario" v-model="tarefaSelecionada.descricao" id="nomeDaTarefa"
-            placeholder="Digite o nome do Tarefa">
-        </div>
-      </section>
-      <footer class="modal-card-foot">
-        <div class="buttons">
-          <button class="button is-success" @click="editarTarefa()">Salvar alterações</button>
-          <button class="button" @click="fecharModal">Cancelar</button>
-        </div>
-      </footer>
-    </div>
-  </div>
+  <Modal :mostrar="tarefaSelecionada != null">
+    <template v-slot:cabecalho>
+      <p class="modal-card-title">Editando uma tarefa</p>
+      <button class="delete" aria-label="close" @click="fecharModal"></button>
+    </template>
+    <template v-slot:corpo>
+      <div class="field" v-if="tarefaSelecionada">
+        <label for="nomeDaTarefa" class="label title">Nome do Tarefa</label>
+        <input type="text" class="input input-formulario" v-model="tarefaSelecionada.descricao" id="nomeDaTarefa"
+          placeholder="Digite o nome do Tarefa">
+      </div>
+    </template>
+    <template v-slot:rodape>
+      <div class="buttons">
+        <button class="button is-success" @click="editarTarefa()">Salvar alterações</button>
+        <button class="button" @click="fecharModal">Cancelar</button>
+      </div>
+    </template>
+  </Modal>
+
 
 </template>
 
@@ -51,6 +49,7 @@ import { useStore } from '@/store';
 import { ALTERAR_TAREFA, CADASTRAR_TAREFA, OBTER_PROJETOS, OBTER_TAREFAS } from '@/store/tipos-acoes';
 import { NOTIFICAR } from '@/store/tipos-multacoes';
 import { TipoDeNotificacao } from '@/interfaces/INotificacao';
+import Modal from '@/components/Modal.vue';
 
 
 export default defineComponent({
@@ -65,7 +64,7 @@ export default defineComponent({
       return this.tarefas.length === 0
     }
   },
-  components: { Formulario, Tarefa, Box },
+  components: { Formulario, Tarefa, Box, Modal },
   methods: {
     salvarTarefa(tarefa: ITarefa) {
       this.store.dispatch(CADASTRAR_TAREFA, tarefa)
@@ -88,8 +87,8 @@ export default defineComponent({
     store.dispatch(OBTER_TAREFAS)
     store.dispatch(OBTER_PROJETOS)
     const filtro = ref('')
-   
-    watchEffect(()=> {
+
+    watchEffect(() => {
       store.dispatch(OBTER_TAREFAS, filtro.value)
     })
 
